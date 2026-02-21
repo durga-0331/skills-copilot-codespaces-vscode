@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#ff758c,#ff7eb3,#ffb199);
+    overflow:hidden;
+}
+
+/* Balloons */
+.balloon{
+    position:absolute;
+    bottom:-150px;
+    width:60px;
+    height:80px;
+    border-radius:50%;
+    animation: float 8s linear infinite;
+}
+
+.balloon:nth-child(1){ left:10%; background:#ff4e50; animation-duration:7s;}
+.balloon:nth-child(2){ left:30%; background:#fc913a; animation-duration:9s;}
+.balloon:nth-child(3){ left:70%; background:#6a82fb; animation-duration:6s;}
+.balloon:nth-child(4){ left:85%; background:#42e695; animation-duration:8s;}
+
+@keyframes float{
+    0%{ transform:translateY(0); }
+    100%{ transform:translateY(-120vh); }
+}
+
+/* Card */
+.card{
+    width:380px;
+    padding:40px;
+    text-align:center;
+    border-radius:25px;
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(15px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+    color:white;
+}
+
+.card h1{
+    margin-bottom:10px;
+}
+
+.card h2{
+    margin-bottom:15px;
+    color:#fff9c4;
+}
+
+.card p{
+    line-height:1.6;
+}
+
+/* Button */
+.btn{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    background:white;
+    color:#ff4e50;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#ff4e50;
+    color:white;
+    transform:scale(1.1);
+}
+
+/* Popup */
+.popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    background:white;
+    color:#ff4e50;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    transition:0.4s;
+    z-index:1000;
+}
+
+.popup.show{
+    transform:translate(-50%,-50%) scale(1);
+}
+
+/* Confetti */
+.confetti{
+    position:absolute;
+    width:10px;
+    height:10px;
+    top:0;
+    animation: fall linear forwards;
+}
+
+@keyframes fall{
+    0%{ transform:translateY(0) rotate(0deg);}
+    100%{ transform:translateY(100vh) rotate(360deg);}
+}
+</style>
+</head>
+<body>
+
+<div class="balloon"></div>
+<div class="balloon"></div>
+<div class="balloon"></div>
+<div class="balloon"></div>
+
+<div class="card">
+  <h1>🎉Happy Birthday 🎉 panda🎉</h1>
+    <h2>  sis 💖</h2>
+    <p>
+        May your special day sparkle with joy,<br>
+        laughter and unforgettable memories.<br><br>
+        Keep shining always! ✨
+    </p>
+    <button class="btn" onclick="showSurprise()">Click for Surprise 🎁</button>
+</div>
+
+<div class="popup" id="popup">
+    <h2>🎂 Surprise! 🎊</h2>
+    <p>Wishing you unlimited happiness and success! 💖</p>
+</div>
+
+<script>
+// Ensure voices load
+window.speechSynthesis.onvoiceschanged = function(){};
+
+function showSurprise(){
+
+    // Show popup
+    document.getElementById("popup").classList.add("show");
+
+    // Female Voice Speech
+    let speech = new SpeechSynthesisUtterance(
+        "Happy Birthday sis! Wishing you lots of happiness and success!"
+    );
+
+    speech.rate = 0.9;
+    speech.pitch = 1;
+
+    let voices = window.speechSynthesis.getVoices();
+
+    for(let i = 0; i < voices.length; i++){
+        if(
+            voices[i].name.toLowerCase().includes("zira") ||
+            voices[i].name.toLowerCase().includes("female") ||
+            voices[i].name.toLowerCase().includes("google uk english female")
+        ){
+            speech.voice = voices[i];
+            break;
+        }
+    }
+
+    window.speechSynthesis.speak(speech);
+
+    // Confetti effect
+    for(let i=0;i<80;i++){
+        let confetti=document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left=Math.random()*100+"vw";
+        confetti.style.backgroundColor=
+            "hsl("+Math.random()*360+",100%,50%)";
+        confetti.style.animationDuration=
+            (Math.random()*3+2)+"s";
+        document.body.appendChild(confetti);
+    }
+}
+</script>
+
+</body>
+</html>
